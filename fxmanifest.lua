@@ -31,7 +31,16 @@ files {
     'nui/boutique/script.js',
     'nui/tablette/index.html',
     'nui/tablette/style.css',
-    'nui/tablette/script.js'
+    'nui/tablette/script.js',
+    'nui/minigame/index.html',
+    'nui/minigame/style.css',
+    'nui/minigame/script.js',
+    'nui/seller/index.html',
+    'nui/seller/style.css',
+    'nui/seller/script.js',
+    'nui/illegal/index.html',
+    'nui/illegal/style.css',
+    'nui/illegal/script.js'
 }
 
 dependencies {

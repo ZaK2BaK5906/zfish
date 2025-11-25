@@ -4,14 +4,12 @@ ESX = exports["es_extended"]:getSharedObject()
 -- FONCTIONS UTILITAIRES
 -- =====================================================
 
--- Obtenir ou créer les données de pêche d'un joueur
 local function GetPlayerFishingData(identifier)
     local result = MySQL.query.await('SELECT * FROM player_fishing WHERE identifier = ?', {identifier})
 
     if result and #result > 0 then
         return result[1]
     else
-        -- Créer une nouvelle entrée
         MySQL.insert('INSERT INTO player_fishing (identifier, level, xp) VALUES (?, ?, ?)', {
             identifier, 1, 0
         })
@@ -31,7 +29,6 @@ local function GetPlayerFishingData(identifier)
     end
 end
 
--- Calculer le niveau en fonction de l'XP
 local function CalculateLevel(xp)
     local level = 1
     for i = Config.MaxLevel, 1, -1 do
@@ -43,7 +40,6 @@ local function CalculateLevel(xp)
     return level
 end
 
--- Obtenir l'XP nécessaire pour le prochain niveau
 local function GetNextLevelXP(currentLevel)
     if currentLevel >= Config.MaxLevel then
         return Config.Levels[Config.MaxLevel].xp
@@ -51,7 +47,6 @@ local function GetNextLevelXP(currentLevel)
     return Config.Levels[currentLevel + 1].xp
 end
 
--- Mettre à jour les stats du joueur
 local function UpdatePlayerStats(identifier, fishData, fishWeight, fishRarity)
     local rarityColumn = string.lower(fishRarity) .. '_caught'
 
@@ -70,7 +65,6 @@ end
 -- ÉVÉNEMENTS SERVEUR
 -- =====================================================
 
--- Obtenir les données du joueur
 ESX.RegisterServerCallback('zfish:getPlayerData', function(source, cb)
     local xPlayer = ESX.GetPlayerFromId(source)
     if not xPlayer then return cb(nil) end
@@ -79,7 +73,6 @@ ESX.RegisterServerCallback('zfish:getPlayerData', function(source, cb)
     cb(data)
 end)
 
--- Obtenir l'historique de pêche
 ESX.RegisterServerCallback('zfish:getFishingHistory', function(source, cb, limit)
     local xPlayer = ESX.GetPlayerFromId(source)
     if not xPlayer then return cb(nil) end
@@ -92,7 +85,6 @@ ESX.RegisterServerCallback('zfish:getFishingHistory', function(source, cb, limit
     cb(history)
 end)
 
--- Vérifier si le joueur possède les items nécessaires
 ESX.RegisterServerCallback('zfish:checkItems', function(source, cb)
     local xPlayer = ESX.GetPlayerFromId(source)
     if not xPlayer then return cb({hasRod = false, hasBait = false}) end
@@ -148,12 +140,11 @@ AddEventHandler('zfish:startFishing', function(baitItem)
     end
 
     exports.ox_inventory:RemoveItem(source, baitItem, 1)
-    TriggerClientEvent('zfish:fishingStarted', source, baitItem)
 end)
 
--- Attraper un poisson
-RegisterNetEvent('zfish:catchFish')
-AddEventHandler('zfish:catchFish', function(baitItem, rodItem)
+-- Demander le mini-jeu
+RegisterNetEvent('zfish:requestMinigame')
+AddEventHandler('zfish:requestMinigame', function(baitItem, rodItem)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
     if not xPlayer then return end
@@ -173,12 +164,19 @@ AddEventHandler('zfish:catchFish', function(baitItem, rodItem)
 
     if not baitData then return end
 
-    -- Créer une liste de poissons possibles
-    local possibleFish = {}
+    -- Créer une liste de poissons possibles (légaux + illégaux)
+    local allFish = {}
     for _, fish in pairs(Config.Fish) do
-        -- Vérifier si le joueur a le niveau requis
+        table.insert(allFish, fish)
+    end
+    for _, fish in pairs(Config.IllegalFish) do
+        table.insert(allFish, fish)
+    end
+
+    -- Filtrer les poissons disponibles
+    local possibleFish = {}
+    for _, fish in pairs(allFish) do
         if playerLevel >= fish.requiredLevel then
-            -- Vérifier si l'appât est compatible
             local baitCompatible = false
             for _, compatibleBait in pairs(fish.requiredBait) do
                 if compatibleBait == baitItem then
@@ -188,7 +186,6 @@ AddEventHandler('zfish:catchFish', function(baitItem, rodItem)
             end
 
             if baitCompatible then
-                -- Calculer la chance modifiée par l'appât
                 local modifiedChance = fish.chance * baitData.multiplier
                 table.insert(possibleFish, {
                     data = fish,
@@ -206,7 +203,7 @@ AddEventHandler('zfish:catchFish', function(baitItem, rodItem)
         return
     end
 
-    -- Sélectionner un poisson aléatoire basé sur les chances
+    -- Sélectionner un poisson aléatoire
     local totalChance = 0
     for _, fish in pairs(possibleFish) do
         totalChance = totalChance + fish.chance
@@ -228,6 +225,38 @@ AddEventHandler('zfish:catchFish', function(baitItem, rodItem)
         selectedFish = possibleFish[1].data
     end
 
+    -- Stocker temporairement le poisson sélectionné
+    if not GlobalState.pendingFish then
+        GlobalState.pendingFish = {}
+    end
+    GlobalState.pendingFish[source] = {
+        fish = selectedFish,
+        baitItem = baitItem,
+        rodItem = rodItem,
+        baitData = baitData
+    }
+
+    -- Envoyer le mini-jeu au client
+    TriggerClientEvent('zfish:showMinigame', source, selectedFish, baitItem, rodItem)
+end)
+
+-- Attraper un poisson (après mini-jeu réussi)
+RegisterNetEvent('zfish:catchFish')
+AddEventHandler('zfish:catchFish', function(baitItem, rodItem)
+    local source = source
+    local xPlayer = ESX.GetPlayerFromId(source)
+    if not xPlayer then return end
+
+    -- Récupérer le poisson en attente
+    local pending = GlobalState.pendingFish and GlobalState.pendingFish[source]
+    if not pending then return end
+
+    local selectedFish = pending.fish
+    local baitData = pending.baitData
+
+    -- Nettoyer les données en attente
+    GlobalState.pendingFish[source] = nil
+
     -- Générer le poids du poisson
     local fishWeight = math.random(selectedFish.weight.min, selectedFish.weight.max)
 
@@ -247,6 +276,9 @@ AddEventHandler('zfish:catchFish', function(baitItem, rodItem)
         })
         return
     end
+
+    -- Obtenir les données du joueur
+    local playerData = GetPlayerFishingData(xPlayer.identifier)
 
     -- Mettre à jour l'XP
     local newXP = playerData.xp + xpGained
@@ -293,7 +325,6 @@ AddEventHandler('zfish:catchFish', function(baitItem, rodItem)
             duration = 5000
         })
 
-        -- Animation de célébration
         TriggerClientEvent('zfish:levelUp', source)
     end
 
@@ -305,7 +336,115 @@ AddEventHandler('zfish:catchFish', function(baitItem, rodItem)
     })
 end)
 
--- Acheter un item dans la boutique
+-- =====================================================
+-- SYSTÈME DE VENTE DE POISSONS
+-- =====================================================
+
+-- Obtenir les poissons du joueur
+ESX.RegisterServerCallback('zfish:getPlayerFish', function(source, cb, illegalOnly)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    if not xPlayer then return cb({}) end
+
+    local inventory = exports.ox_inventory:GetInventory(source)
+    local fishList = {}
+
+    -- Liste de poissons à chercher
+    local fishConfig = illegalOnly and Config.IllegalFish or Config.Fish
+
+    for _, fish in pairs(fishConfig) do
+        local count = exports.ox_inventory:Search('count', fish.item)
+        if count and count > 0 then
+            -- Obtenir le poids moyen
+            local items = exports.ox_inventory:Search('slots', fish.item)
+            local totalWeight = 0
+            local itemCount = 0
+
+            if items then
+                for _, item in pairs(items) do
+                    if item.metadata and item.metadata.weight then
+                        totalWeight = totalWeight + item.metadata.weight
+                        itemCount = itemCount + 1
+                    end
+                end
+            end
+
+            local avgWeight = itemCount > 0 and (totalWeight / itemCount) or fish.weight.min
+
+            table.insert(fishList, {
+                item = fish.item,
+                label = fish.label,
+                price = fish.price,
+                quantity = count,
+                rarity = fish.rarity,
+                weight = avgWeight
+            })
+        end
+    end
+
+    cb(fishList)
+end)
+
+-- Vendre tous les poissons
+RegisterNetEvent('zfish:sellAllFish')
+AddEventHandler('zfish:sellAllFish', function(isIllegal)
+    local source = source
+    local xPlayer = ESX.GetPlayerFromId(source)
+    if not xPlayer then return end
+
+    local fishConfig = isIllegal and Config.IllegalFish or Config.Fish
+    local priceMultiplier = isIllegal and Config.IllegalBuyer.priceMultiplier or Config.FishSeller.priceMultiplier
+    local totalMoney = 0
+    local totalFish = 0
+
+    for _, fish in pairs(fishConfig) do
+        local count = exports.ox_inventory:GetItemCount(source, fish.item)
+        if count and count > 0 then
+            -- Retirer les poissons
+            exports.ox_inventory:RemoveItem(source, fish.item, count)
+
+            -- Calculer le prix
+            local price = math.floor(fish.price * count * priceMultiplier)
+            totalMoney = totalMoney + price
+            totalFish = totalFish + count
+        end
+    end
+
+    if totalMoney > 0 then
+        xPlayer.addMoney(totalMoney)
+
+        TriggerClientEvent('ox_lib:notify', source, {
+            type = 'success',
+            description = string.format('Vous avez vendu %d poissons pour $%d', totalFish, totalMoney),
+            duration = 5000
+        })
+
+        -- Alerte police pour vente illégale
+        if isIllegal then
+            local alertChance = Config.IllegalBuyer.policeAlertChance
+            if math.random(100) <= alertChance then
+                -- Alerter la police (à adapter selon votre système de police)
+                TriggerClientEvent('ox_lib:notify', source, {
+                    type = 'warning',
+                    description = 'Vous avez le sentiment d\'être observé...',
+                    duration = 5000
+                })
+
+                -- Vous pouvez ajouter ici un dispatch pour la police
+                -- TriggerEvent('police:alert', coords, 'Vente illégale de poissons')
+            end
+        end
+    else
+        TriggerClientEvent('ox_lib:notify', source, {
+            type = 'error',
+            description = 'Vous n\'avez aucun poisson à vendre'
+        })
+    end
+end)
+
+-- =====================================================
+-- ACHAT D'ITEMS
+-- =====================================================
+
 RegisterNetEvent('zfish:buyItem')
 AddEventHandler('zfish:buyItem', function(itemType, itemName)
     local source = source
@@ -316,14 +455,14 @@ AddEventHandler('zfish:buyItem', function(itemType, itemName)
     local itemData = nil
 
     -- Trouver l'item dans la config
-    if itemType == 'rod' then
+    if itemType == 'rods' then
         for _, rod in pairs(Config.FishingRods) do
             if rod.item == itemName then
                 itemData = rod
                 break
             end
         end
-    elseif itemType == 'bait' then
+    elseif itemType == 'baits' then
         for _, bait in pairs(Config.Baits) do
             if bait.item == itemName then
                 itemData = bait
@@ -368,9 +507,9 @@ AddEventHandler('zfish:buyItem', function(itemType, itemName)
     -- Retirer l'argent
     xPlayer.removeMoney(itemData.price)
 
-    -- Ajouter l'item (quantité spéciale pour les appâts)
+    -- Ajouter l'item
     local quantity = 1
-    if itemType == 'bait' then
+    if itemType == 'baits' then
         quantity = 10 -- 10 appâts par achat
     end
 
@@ -382,52 +521,10 @@ AddEventHandler('zfish:buyItem', function(itemType, itemName)
     })
 end)
 
--- Vendre un poisson
-RegisterNetEvent('zfish:sellFish')
-AddEventHandler('zfish:sellFish', function(fishItem, quantity)
-    local source = source
-    local xPlayer = ESX.GetPlayerFromId(source)
-    if not xPlayer then return end
-
-    -- Trouver le poisson dans la config
-    local fishData = nil
-    for _, fish in pairs(Config.Fish) do
-        if fish.item == fishItem then
-            fishData = fish
-            break
-        end
-    end
-
-    if not fishData then return end
-
-    -- Vérifier que le joueur a le poisson
-    local count = exports.ox_inventory:GetItemCount(source, fishItem)
-    if not count or count < quantity then
-        TriggerClientEvent('ox_lib:notify', source, {
-            type = 'error',
-            description = 'Vous n\'avez pas assez de poissons'
-        })
-        return
-    end
-
-    -- Retirer les poissons
-    exports.ox_inventory:RemoveItem(source, fishItem, quantity)
-
-    -- Ajouter l'argent
-    local totalPrice = fishData.price * quantity
-    xPlayer.addMoney(totalPrice)
-
-    TriggerClientEvent('ox_lib:notify', source, {
-        type = 'success',
-        description = string.format('Vous avez vendu %dx %s pour $%d', quantity, fishData.label, totalPrice)
-    })
-end)
-
 -- =====================================================
 -- COMMANDES
 -- =====================================================
 
--- Commande pour voir ses stats
 ESX.RegisterCommand('fishstats', 'user', function(xPlayer, args, showError)
     local data = GetPlayerFishingData(xPlayer.identifier)
     local nextLevelXP = GetNextLevelXP(data.level)

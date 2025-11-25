@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acheteur Illégal</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container" id="app" style="display: none;">
+        <div class="tablet">
+            <div class="tablet-header">
+                <div class="header-left">
+                    <i class="fas fa-user-secret"></i>
+                    <span class="header-title">MARCHÉ NOIR</span>
+                </div>
+                <div class="header-right">
+                    <button class="close-btn" id="closeBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="tablet-body">
+                <div class="seller-info">
+                    <h2>Vente Illégale</h2>
+                    <p class="seller-subtitle">Prise de risque = Meilleur prix</p>
+                    <div class="warning-box">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Attention : La police peut être alertée !</span>
+                    </div>
+                </div>
+
+                <div class="fish-list" id="fishList">
+                    <!-- Liste générée dynamiquement -->
+                </div>
+
+                <div class="summary-section">
+                    <div class="summary-card">
+                        <div class="summary-label">Total estimé:</div>
+                        <div class="summary-value" id="totalValue">$0</div>
+                        <div class="bonus-info">
+                            <i class="fas fa-fire"></i>
+                            <span>Bonus marché noir: x3</span>
+                        </div>
+                    </div>
+                    <button class="sell-all-btn" id="sellAllBtn" disabled>
+                        <i class="fas fa-sack-dollar"></i>
+                        <span>Vendre</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

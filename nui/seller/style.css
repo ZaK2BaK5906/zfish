@@ -1,0 +1,332 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+}
+
+.container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateZ(0);
+    z-index: 9999;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.tablet {
+    width: 700px;
+    max-height: 80vh;
+    background: linear-gradient(135deg, rgba(20, 30, 48, 0.98), rgba(36, 59, 85, 0.98));
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 3px rgba(34, 197, 94, 0.3);
+    border: 1px solid rgba(34, 197, 94, 0.4);
+    overflow: hidden;
+    animation: slideUp 0.4s ease-out;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.tablet-header {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-left i {
+    font-size: 28px;
+    color: #fff;
+}
+
+.header-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.close-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 18px;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.tablet-body {
+    padding: 25px;
+    flex: 1;
+    overflow-y: auto;
+    max-height: calc(80vh - 200px);
+}
+
+.seller-info {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.seller-info h2 {
+    font-size: 26px;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.seller-subtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.fish-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.fish-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(34, 197, 94, 0.2);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+}
+
+.fish-item:hover {
+    border-color: rgba(34, 197, 94, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(5px);
+}
+
+.fish-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.fish-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fish-icon.common {
+    background: linear-gradient(135deg, #9ca3af, #6b7280);
+}
+
+.fish-icon.uncommon {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.fish-icon.rare {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.fish-icon.epic {
+    background: linear-gradient(135deg, #a855f7, #9333ea);
+}
+
+.fish-icon.legendary {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+.fish-icon.illegal {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    animation: illegalPulse 2s ease-in-out infinite;
+}
+
+@keyframes illegalPulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
+}
+
+.fish-icon i {
+    font-size: 24px;
+    color: #fff;
+}
+
+.fish-details h3 {
+    font-size: 16px;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.fish-meta {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    gap: 10px;
+}
+
+.fish-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.fish-quantity {
+    background: rgba(34, 197, 94, 0.2);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #22c55e;
+    font-weight: 700;
+}
+
+.fish-price {
+    font-size: 20px;
+    color: #22c55e;
+    font-weight: 700;
+    min-width: 100px;
+    text-align: right;
+}
+
+.summary-section {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(34, 197, 94, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.summary-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.summary-value {
+    font-size: 32px;
+    color: #22c55e;
+    font-weight: 700;
+}
+
+.sell-all-btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-transform: uppercase;
+}
+
+.sell-all-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    box-shadow: 0 5px 20px rgba(34, 197, 94, 0.5);
+    transform: translateY(-2px);
+}
+
+.sell-all-btn:disabled {
+    background: rgba(255, 255, 255, 0.1);
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.sell-all-btn i {
+    font-size: 20px;
+}
+
+.tablet-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.tablet-body::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.tablet-body::-webkit-scrollbar-thumb {
+    background: rgba(34, 197, 94, 0.5);
+    border-radius: 10px;
+}
+
+.tablet-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(34, 197, 94, 0.7);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.empty-state i {
+    font-size: 64px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.empty-state p {
+    font-size: 16px;
+}

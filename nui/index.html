@@ -10,12 +10,18 @@
 <body>
     <iframe id="boutiqueFrame" src="boutique/index.html" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; border:none; z-index:9999;"></iframe>
     <iframe id="tabletteFrame" src="tablette/index.html" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; border:none; z-index:9999;"></iframe>
+    <iframe id="minigameFrame" src="minigame/index.html" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; border:none; z-index:10000;"></iframe>
+    <iframe id="sellerFrame" src="seller/index.html" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; border:none; z-index:9999;"></iframe>
+    <iframe id="illegalFrame" src="illegal/index.html" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; border:none; z-index:9999;"></iframe>
 
     <script>
         window.addEventListener('message', function(event) {
             const data = event.data;
             const boutiqueFrame = document.getElementById('boutiqueFrame');
             const tabletteFrame = document.getElementById('tabletteFrame');
+            const minigameFrame = document.getElementById('minigameFrame');
+            const sellerFrame = document.getElementById('sellerFrame');
+            const illegalFrame = document.getElementById('illegalFrame');
 
             if (data.type === 'openShop') {
                 boutiqueFrame.style.display = 'block';
@@ -23,6 +29,15 @@
             } else if (data.type === 'openTablet') {
                 tabletteFrame.style.display = 'block';
                 tabletteFrame.contentWindow.postMessage(data, '*');
+            } else if (data.type === 'startMinigame') {
+                minigameFrame.style.display = 'block';
+                minigameFrame.contentWindow.postMessage(data, '*');
+            } else if (data.type === 'openSeller') {
+                sellerFrame.style.display = 'block';
+                sellerFrame.contentWindow.postMessage(data, '*');
+            } else if (data.type === 'openIllegal') {
+                illegalFrame.style.display = 'block';
+                illegalFrame.contentWindow.postMessage(data, '*');
             }
         });
 
@@ -32,6 +47,19 @@
                 document.getElementById('boutiqueFrame').style.display = 'none';
             } else if (event.data.action === 'closeTablet') {
                 document.getElementById('tabletteFrame').style.display = 'none';
+            } else if (event.data.action === 'closeSeller') {
+                document.getElementById('sellerFrame').style.display = 'none';
+            } else if (event.data.action === 'closeIllegal') {
+                document.getElementById('illegalFrame').style.display = 'none';
+            }
+        });
+
+        // Fermer le mini-jeu après un résultat
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.success !== undefined) {
+                setTimeout(() => {
+                    document.getElementById('minigameFrame').style.display = 'none';
+                }, 600);
             }
         });
     </script>

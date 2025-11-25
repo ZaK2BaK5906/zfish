@@ -456,6 +456,177 @@ Config.Fish = {
 }
 
 -- ========================
+-- POISSONS ILLÉGAUX
+-- ========================
+Config.IllegalFish = {
+    {
+        item = 'illegal_great_white_shark',
+        label = 'Grand Requin Blanc',
+        price = 1200,
+        weight = {min = 100000, max = 200000},
+        rarity = 'illegal',
+        xpReward = 300,
+        requiredLevel = 15,
+        requiredBait = {'lure_professional', 'chum_premium', 'chum_legendary'},
+        chance = 2
+    },
+    {
+        item = 'illegal_tiger_shark',
+        label = 'Requin Tigre',
+        price = 950,
+        weight = {min = 80000, max = 150000},
+        rarity = 'illegal',
+        xpReward = 250,
+        requiredLevel = 14,
+        requiredBait = {'lure_advanced', 'lure_professional', 'chum_premium'},
+        chance = 3
+    },
+    {
+        item = 'illegal_hammerhead_shark',
+        label = 'Requin Marteau',
+        price = 850,
+        weight = {min = 70000, max = 130000},
+        rarity = 'illegal',
+        xpReward = 220,
+        requiredLevel = 13,
+        requiredBait = {'lure_advanced', 'chum_premium'},
+        chance = 3
+    },
+    {
+        item = 'illegal_bull_shark',
+        label = 'Requin Bouledogue',
+        price = 750,
+        weight = {min = 60000, max = 110000},
+        rarity = 'illegal',
+        xpReward = 200,
+        requiredLevel = 12,
+        requiredBait = {'lure_basic', 'lure_advanced', 'chum_basic'},
+        chance = 4
+    },
+    {
+        item = 'illegal_blue_shark',
+        label = 'Requin Bleu',
+        price = 680,
+        weight = {min = 50000, max = 95000},
+        rarity = 'illegal',
+        xpReward = 180,
+        requiredLevel = 11,
+        requiredBait = {'lure_basic', 'chum_basic'},
+        chance = 4
+    },
+    {
+        item = 'illegal_whale_shark',
+        label = 'Requin Baleine',
+        price = 1500,
+        weight = {min = 150000, max = 250000},
+        rarity = 'illegal',
+        xpReward = 350,
+        requiredLevel = 17,
+        requiredBait = {'chum_premium', 'chum_legendary'},
+        chance = 1
+    },
+    {
+        item = 'illegal_baby_whale',
+        label = 'Bébé Baleine',
+        price = 2000,
+        weight = {min = 200000, max = 350000},
+        rarity = 'illegal',
+        xpReward = 400,
+        requiredLevel = 18,
+        requiredBait = {'chum_legendary'},
+        chance = 1
+    },
+    {
+        item = 'illegal_dolphin',
+        label = 'Dauphin',
+        price = 1100,
+        weight = {min = 120000, max = 180000},
+        rarity = 'illegal',
+        xpReward = 280,
+        requiredLevel = 15,
+        requiredBait = {'lure_professional', 'chum_premium'},
+        chance = 2
+    },
+    {
+        item = 'illegal_orca',
+        label = 'Orque',
+        price = 1800,
+        weight = {min = 180000, max = 300000},
+        rarity = 'illegal',
+        xpReward = 380,
+        requiredLevel = 19,
+        requiredBait = {'chum_legendary'},
+        chance = 1
+    },
+    {
+        item = 'illegal_giant_turtle',
+        label = 'Tortue Géante',
+        price = 900,
+        weight = {min = 90000, max = 140000},
+        rarity = 'illegal',
+        xpReward = 240,
+        requiredLevel = 14,
+        requiredBait = {'lure_advanced', 'chum_basic'},
+        chance = 3
+    },
+    {
+        item = 'illegal_stingray',
+        label = 'Raie Pastenague',
+        price = 650,
+        weight = {min = 55000, max = 90000},
+        rarity = 'illegal',
+        xpReward = 190,
+        requiredLevel = 12,
+        requiredBait = {'lure_basic', 'bait_squid'},
+        chance = 4
+    },
+    {
+        item = 'illegal_giant_octopus',
+        label = 'Pieuvre Géante',
+        price = 800,
+        weight = {min = 70000, max = 120000},
+        rarity = 'illegal',
+        xpReward = 210,
+        requiredLevel = 13,
+        requiredBait = {'lure_advanced', 'bait_squid'},
+        chance = 3
+    },
+    {
+        item = 'illegal_bluefin_tuna',
+        label = 'Thon Rouge',
+        price = 1300,
+        weight = {min = 100000, max = 170000},
+        rarity = 'illegal',
+        xpReward = 290,
+        requiredLevel = 16,
+        requiredBait = {'lure_professional', 'chum_premium'},
+        chance = 2
+    },
+    {
+        item = 'illegal_sawfish',
+        label = 'Poisson-Scie',
+        price = 950,
+        weight = {min = 85000, max = 145000},
+        rarity = 'illegal',
+        xpReward = 260,
+        requiredLevel = 15,
+        requiredBait = {'lure_advanced', 'chum_basic'},
+        chance = 2
+    },
+    {
+        item = 'illegal_napoleon_fish',
+        label = 'Napoléon (Protégé)',
+        price = 1400,
+        weight = {min = 95000, max = 160000},
+        rarity = 'illegal',
+        xpReward = 310,
+        requiredLevel = 17,
+        requiredBait = {'lure_professional', 'chum_premium'},
+        chance = 2
+    }
+}
+
+-- ========================
 -- ANIMATIONS
 -- ========================
 Config.Animations = {
@@ -472,11 +643,35 @@ Config.Animations = {
 }
 
 -- ========================
--- SKILL CHECK OX_LIB
+-- MINI-JEU DE PÊCHE
 -- ========================
-Config.SkillCheck = {
-    difficulty = {'easy', 'easy', 'easy'}, -- 3 niveaux easy
-    keys = {'1', '2', '3'}
+Config.FishingMinigame = {
+    enabled = true, -- Activer le mini-jeu personnalisé
+    barSpeed = {
+        common = 2.5,      -- Vitesse de la barre pour poissons communs
+        uncommon = 3.5,    -- Vitesse pour peu communs
+        rare = 4.5,        -- Vitesse pour rares
+        epic = 5.5,        -- Vitesse pour épiques
+        legendary = 7.0,   -- Vitesse pour légendaires
+        illegal = 8.0      -- Vitesse pour illégaux
+    },
+    successZoneSize = {
+        common = 25,       -- Taille de la zone de succès (en %)
+        uncommon = 20,
+        rare = 15,
+        epic = 12,
+        legendary = 8,
+        illegal = 6
+    },
+    clicksRequired = {    -- Nombre de clics souris requis pour stopper la barre
+        common = 3,
+        uncommon = 5,
+        rare = 7,
+        epic = 10,
+        legendary = 15,
+        illegal = 20
+    },
+    duration = 10000     -- Durée maximale du mini-jeu (ms)
 }
 
 -- ========================
@@ -502,3 +697,42 @@ Config.Messages = {
 -- ITEM TABLETTE
 -- ========================
 Config.TabletItem = 'fishing_tablet'
+
+-- ========================
+-- VENDEUR DE POISSONS LÉGAL
+-- ========================
+Config.FishSeller = {
+    ped = {
+        model = 'a_m_m_business_01',
+        coords = vector4(-1820.34, -1197.89, 13.3, 325.45),
+        scenario = 'WORLD_HUMAN_CLIPBOARD'
+    },
+    blip = {
+        enabled = true,
+        sprite = 356,
+        color = 2,
+        scale = 0.8,
+        name = "Vendeur de Poissons"
+    },
+    priceMultiplier = 1.0 -- Multiplicateur du prix (1.0 = prix normal, 1.5 = +50%, etc.)
+}
+
+-- ========================
+-- ACHETEUR ILLÉGAL
+-- ========================
+Config.IllegalBuyer = {
+    ped = {
+        model = 's_m_m_MovAlien_01',  -- PNJ louche
+        coords = vector4(730.12, -3000.45, 6.07, 180.0), -- Docks industriels
+        scenario = 'WORLD_HUMAN_SMOKING'
+    },
+    blip = {
+        enabled = false, -- Pas de blip pour l'illégal
+        sprite = 280,
+        color = 1,
+        scale = 0.0,
+        name = "???"
+    },
+    priceMultiplier = 3.0, -- Les poissons illégaux rapportent 3x plus
+    policeAlertChance = 15 -- 15% de chance d'alerter la police à chaque vente
+}

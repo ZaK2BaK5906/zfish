@@ -302,3 +302,124 @@
         export = 'zfish.useFishingTablet'
     }
 },
+
+-- POISSONS ILLÉGAUX
+['illegal_great_white_shark'] = {
+    label = 'Grand Requin Blanc',
+    weight = 150000,
+    stack = true,
+    close = true,
+    description = '⚠️ ILLÉGAL - Espèce protégée'
+},
+
+['illegal_tiger_shark'] = {
+    label = 'Requin Tigre',
+    weight = 115000,
+    stack = true,
+    close = true,
+    description = '⚠️ ILLÉGAL - Espèce protégée'
+},
+
+['illegal_hammerhead_shark'] = {
+    label = 'Requin Marteau',
+    weight = 100000,
+    stack = true,
+    close = true,
+    description = '⚠️ ILLÉGAL - Espèce protégée'
+},
+
+['illegal_bull_shark'] = {
+    label = 'Requin Bouledogue',
+    weight = 85000,
+    stack = true,
+    close = true,
+    description = '⚠️ ILLÉGAL - Espèce protégée'
+},
+
+['illegal_blue_shark'] = {
+    label = 'Requin Bleu',
+    weight = 72500,
+    stack = true,
+    close = true,
+    description = '⚠️ ILLÉGAL - Espèce protégée'
+},
+
+['illegal_whale_shark'] = {
+    label = 'Requin Baleine',
+    weight = 200000,
+    stack = true,
+    close = true,
+    description = '⚠️ ILLÉGAL - Espèce protégée en danger'
+},
+
+['illegal_baby_whale'] = {
+    label = 'Bébé Baleine',
+    weight = 275000,
+    stack = true,
+    close = true,
+    description = '⚠️ ILLÉGAL - Capture strictement interdite'
+},
+
+['illegal_dolphin'] = {
+    label = 'Dauphin',
+    weight = 150000,
+    stack = true,
+    close = true,
+    description = '⚠️ ILLÉGAL - Mammifère marin protégé'
+},
+
+['illegal_orca'] = {
+    label = 'Orque',
+    weight = 240000,
+    stack = true,
+    close = true,
+    description = '⚠️ ILLÉGAL - Espèce hautement protégée'
+},
+
+['illegal_giant_turtle'] = {
+    label = 'Tortue Géante',
+    weight = 115000,
+    stack = true,
+    close = true,
+    description = '⚠️ ILLÉGAL - Espèce en danger d\'extinction'
+},
+
+['illegal_stingray'] = {
+    label = 'Raie Pastenague',
+    weight = 72500,
+    stack = true,
+    close = true,
+    description = '⚠️ ILLÉGAL - Pêche réglementée'
+},
+
+['illegal_giant_octopus'] = {
+    label = 'Pieuvre Géante',
+    weight = 95000,
+    stack = true,
+    close = true,
+    description = '⚠️ ILLÉGAL - Espèce protégée'
+},
+
+['illegal_bluefin_tuna'] = {
+    label = 'Thon Rouge',
+    weight = 135000,
+    stack = true,
+    close = true,
+    description = '⚠️ ILLÉGAL - Surpêche interdite'
+},
+
+['illegal_sawfish'] = {
+    label = 'Poisson-Scie',
+    weight = 115000,
+    stack = true,
+    close = true,
+    description = '⚠️ ILLÉGAL - Espèce menacée'
+},
+
+['illegal_napoleon_fish'] = {
+    label = 'Napoléon (Protégé)',
+    weight = 127500,
+    stack = true,
+    close = true,
+    description = '⚠️ ILLÉGAL - Espèce ultra-protégée'
+},

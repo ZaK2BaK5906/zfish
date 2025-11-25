@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini-Jeu de Pêche</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="minigame-container" id="minigameApp" style="display: none;">
+        <div class="minigame-box">
+            <div class="minigame-header">
+                <div class="fish-info">
+                    <i class="fas fa-fish"></i>
+                    <span id="fishName">Poisson Mystérieux</span>
+                </div>
+                <div class="timer-container">
+                    <i class="fas fa-clock"></i>
+                    <span id="timer">10s</span>
+                </div>
+            </div>
+
+            <div class="minigame-body">
+                <div class="instruction">
+                    <i class="fas fa-mouse-pointer pulse"></i>
+                    <p>Cliquez rapidement pour arrêter la barre dans la zone verte !</p>
+                    <div class="clicks-counter">
+                        <span>Clics: </span>
+                        <span id="clickCount">0</span>
+                        <span> / </span>
+                        <span id="clickRequired">10</span>
+                    </div>
+                </div>
+
+                <div class="fishing-bar-container">
+                    <div class="success-zone" id="successZone"></div>
+                    <div class="fishing-bar" id="fishingBar"></div>
+                </div>
+
+                <div class="difficulty-indicator">
+                    <span class="difficulty-label">Difficulté:</span>
+                    <div class="difficulty-stars" id="difficultyStars"></div>
+                </div>
+            </div>
+
+            <div class="minigame-footer">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
