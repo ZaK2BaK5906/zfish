@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablette de Pêche</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container" id="app" style="display: none;">
+        <div class="tablet">
+            <div class="tablet-header">
+                <div class="header-left">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="header-title">TABLETTE DE PÊCHE</span>
+                </div>
+                <div class="header-right">
+                    <button class="close-btn" id="closeBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="tablet-body">
+                <!-- Section Progression -->
+                <div class="section">
+                    <div class="section-header">
+                        <i class="fas fa-trophy"></i>
+                        <h2>Votre Progression</h2>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card level-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-label">Niveau</div>
+                                <div class="stat-value" id="playerLevel">1</div>
+                                <div class="stat-subtitle" id="levelName">Débutant</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card xp-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-label">Expérience</div>
+                                <div class="stat-value" id="playerXP">0</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="xpProgress"></div>
+                                </div>
+                                <div class="stat-subtitle" id="xpText">0 / 100</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-fish"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-label">Poissons Attrapés</div>
+                                <div class="stat-value" id="totalFish">0</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-weight"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-label">Plus Gros Poisson</div>
+                                <div class="stat-value" id="biggestFishWeight">0g</div>
+                                <div class="stat-subtitle" id="biggestFishName">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Statistiques par Rareté -->
+                <div class="section">
+                    <div class="section-header">
+                        <i class="fas fa-chart-pie"></i>
+                        <h2>Statistiques par Rareté</h2>
+                    </div>
+
+                    <div class="rarity-stats">
+                        <div class="rarity-item legendary">
+                            <div class="rarity-icon">
+                                <i class="fas fa-gem"></i>
+                            </div>
+                            <div class="rarity-content">
+                                <div class="rarity-name">Légendaires</div>
+                                <div class="rarity-count" id="legendaryCount">0</div>
+                            </div>
+                        </div>
+
+                        <div class="rarity-item epic">
+                            <div class="rarity-icon">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <div class="rarity-content">
+                                <div class="rarity-name">Épiques</div>
+                                <div class="rarity-count" id="epicCount">0</div>
+                            </div>
+                        </div>
+
+                        <div class="rarity-item rare">
+                            <div class="rarity-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="rarity-content">
+                                <div class="rarity-name">Rares</div>
+                                <div class="rarity-count" id="rareCount">0</div>
+                            </div>
+                        </div>
+
+                        <div class="rarity-item uncommon">
+                            <div class="rarity-icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="rarity-content">
+                                <div class="rarity-name">Peu Communs</div>
+                                <div class="rarity-count" id="uncommonCount">0</div>
+                            </div>
+                        </div>
+
+                        <div class="rarity-item common">
+                            <div class="rarity-icon">
+                                <i class="fas fa-circle"></i>
+                            </div>
+                            <div class="rarity-content">
+                                <div class="rarity-name">Communs</div>
+                                <div class="rarity-count" id="commonCount">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Historique -->
+                <div class="section">
+                    <div class="section-header">
+                        <i class="fas fa-history"></i>
+                        <h2>Historique Récent</h2>
+                    </div>
+
+                    <div class="history-container" id="historyContainer">
+                        <!-- Historique généré dynamiquement -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

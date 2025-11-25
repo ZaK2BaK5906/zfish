@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique de Pêche</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container" id="app" style="display: none;">
+        <div class="tablet">
+            <div class="tablet-header">
+                <div class="header-left">
+                    <i class="fas fa-fish"></i>
+                    <span class="header-title">BOUTIQUE DE PÊCHE</span>
+                </div>
+                <div class="header-right">
+                    <div class="player-info">
+                        <div class="info-item">
+                            <i class="fas fa-level-up-alt"></i>
+                            <span id="playerLevel">Niveau 1</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span id="playerMoney">$0</span>
+                        </div>
+                    </div>
+                    <button class="close-btn" id="closeBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="tablet-body">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="rods">
+                        <i class="fas fa-hockey-puck"></i>
+                        Cannes à Pêche
+                    </button>
+                    <button class="tab-btn" data-tab="baits">
+                        <i class="fas fa-worm"></i>
+                        Appâts & Leurres
+                    </button>
+                    <button class="tab-btn" data-tab="equipment">
+                        <i class="fas fa-toolbox"></i>
+                        Équipements
+                    </button>
+                </div>
+
+                <div class="tab-content active" id="rods-content">
+                    <div class="items-grid" id="rodsGrid"></div>
+                </div>
+
+                <div class="tab-content" id="baits-content">
+                    <div class="items-grid" id="baitsGrid"></div>
+                </div>
+
+                <div class="tab-content" id="equipment-content">
+                    <div class="items-grid" id="equipmentGrid"></div>
+                </div>
+            </div>
+
+            <div class="tablet-footer">
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Votre niveau de pêche débloque de nouveaux équipements</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

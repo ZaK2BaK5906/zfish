@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZFISH</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <iframe id="boutiqueFrame" src="boutique/index.html" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; border:none; z-index:9999;"></iframe>
+    <iframe id="tabletteFrame" src="tablette/index.html" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; border:none; z-index:9999;"></iframe>
+
+    <script>
+        window.addEventListener('message', function(event) {
+            const data = event.data;
+            const boutiqueFrame = document.getElementById('boutiqueFrame');
+            const tabletteFrame = document.getElementById('tabletteFrame');
+
+            if (data.type === 'openShop') {
+                boutiqueFrame.style.display = 'block';
+                boutiqueFrame.contentWindow.postMessage(data, '*');
+            } else if (data.type === 'openTablet') {
+                tabletteFrame.style.display = 'block';
+                tabletteFrame.contentWindow.postMessage(data, '*');
+            }
+        });
+
+        // Écouter les fermetures depuis les iframes
+        window.addEventListener('message', function(event) {
+            if (event.data.action === 'closeShop') {
+                document.getElementById('boutiqueFrame').style.display = 'none';
+            } else if (event.data.action === 'closeTablet') {
+                document.getElementById('tabletteFrame').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
